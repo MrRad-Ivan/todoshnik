@@ -1,0 +1,36 @@
+<%= form_with model: task do |form| %>
+
+    <% if task.errors.any? %>
+        <div style="color: red; margin-bottom: 1em;">
+        <h3>Ошибки:</h3>
+        <ul>
+            <% task.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+            <% end %>
+        </ul>
+        </div>
+    <% end %>
+
+    <div>
+        <%= form.label :title, "Название задачи" %>
+        <%= form.text_field :title %>
+    </div>
+
+    <div>
+        <%= form.label :description, "Описание" %>
+        <%= form.text_area :description %>
+    </div>
+
+    <% if task.persisted? %>
+        <div>
+            <%= form.label :status, "Статус" %>
+            <%= form.select :status, [["Новая задача"], ["Выполняется"], ["Завершена"]] %>
+        </div>
+    <% end %>
+
+
+    <div>
+        <%= form.submit task.persisted? ? "Обновить задачу" : "Создать задачу" %>
+    </div>
+
+<% end %>

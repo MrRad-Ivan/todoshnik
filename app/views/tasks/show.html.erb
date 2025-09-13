@@ -1,0 +1,12 @@
+
+<%= render @task %>
+
+
+<div>
+    <%= link_to " Редактировать", edit_task_path %>
+    <%= button_to "Удалить задачу", @task, method: :delete, data: { turbo_confirm: "Вы точно хотите удалить задачу?" } %>
+    <%= link_to "Назад", tasks_path %> 
+    
+</div>
+
+

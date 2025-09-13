@@ -1,0 +1,15 @@
+<h1>Список задач</h1>
+
+<%= link_to "Создать новую задачу", new_task_path %>
+
+<ul>
+  <% @tasks.each do |task| %>
+    <li>
+    <a href="/tasks/<%= task.id %>">
+        <strong><%= task.title %></strong><br>
+    </a>
+      <%= task.description %><br>
+      Статус: <%= task.status %>
+    </li>
+  <% end %>
+</ul>

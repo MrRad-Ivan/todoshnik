@@ -5,11 +5,23 @@
 <ul>
   <% @tasks.each do |task| %>
     <li>
-    <a href="/tasks/<%= task.id %>">
-        <strong><%= task.title %></strong><br>
-    </a>
-      <%= task.description %><br>
-      Статус: <%= task.status %>
+      <a href="/tasks/<%= task.id %>">
+        <strong><%= task.title %></strong>
+      </a><br>
+
+      Описание: <%= task.description %><br>
+
+      <%# Цвет статуса %>
+      <% status_color = case task.status
+         when "Новая задача" then "blue"
+         when "На выполнении" then "orange"
+         when "Выполнена" then "green"
+         when "Просрочена" then "red"
+         end %>
+      Статус: <span style="color: <%= status_color %>"><%= task.status %></span><br>
+
+      Создано: <%= task.created_at.strftime("%d.%m.%Y") %><br>
+      Срок выполнения: <%= task.due_date.present? ? task.due_date.strftime("%d.%m.%Y") : "не задан" %>
     </li>
   <% end %>
 </ul>

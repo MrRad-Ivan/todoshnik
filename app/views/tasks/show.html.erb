@@ -1,12 +1,28 @@
+<h1><%= @task.title %></h1>
 
-<%= render @task %>
+<p><strong>Описание:</strong></p>
+<p><%= @task.description %></p>
 
+<p><strong>Дата выполнения:</strong> <%= @task.due_date %></p>
 
-<div>
-    <%= link_to " Редактировать", edit_task_path %>
-    <%= button_to "Удалить задачу", @task, method: :delete, data: { turbo_confirm: "Вы точно хотите удалить задачу?" } %>
-    <%= link_to "Назад", tasks_path %> 
-    
-</div>
+<%# Цвет статуса %>
+<% status_color = case @task.status
+   when "Новая задача" then "blue"
+   when "На выполнении" then "orange"
+   when "Выполнена" then "green"
+   when "Просрочена" then "red"
+   end %>
 
+<p>
+  <strong>Статус:</strong>
+  <span style="color: <%= status_color %>"><%= @task.status %></span>
+</p>
 
+<%# Кнопка смены статуса только для новых и выполняющихся задач %>
+<% if ["Новая задача", "На выполнении"].include?(@task.status) %>
+  <%= button_to "Следующий статус", toggle_status_task_path(@task), method: :patch %>
+<% end %>
+
+<%= link_to "Редактировать", edit_task_path(@task), class: "btn" %> 
+<%= button_to "Удалить", @task, method: :delete, data: { turbo_confirm: "Вы уверены?" } %> 
+<%= link_to "Назад", tasks_path %>

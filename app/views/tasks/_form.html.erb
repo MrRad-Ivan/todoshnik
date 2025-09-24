@@ -1,36 +1,48 @@
 <%= form_with model: task do |form| %>
-
-    <% if task.errors.any? %>
-        <div style="color: red; margin-bottom: 1em;">
-        <h3>Ошибки:</h3>
-        <ul>
-            <% task.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-            <% end %>
-        </ul>
-        </div>
-    <% end %>
-
-    <div>
-        <%= form.label :title, "Название задачи" %>
-        <%= form.text_field :title %>
+  <% if task.errors.any? %>
+    <div style="color: red;">
+      <h3>Ошибки:</h3>
+      <ul>
+        <% task.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
     </div>
+  <% end %>
 
-    <div>
-        <%= form.label :description, "Описание" %>
-        <%= form.text_area :description %>
-    </div>
+  <div>
+    <%= form.label :title, "Название задачи" %><br>
+    <%= form.text_field :title %>
+  </div>
 
-    <% if task.persisted? %>
-        <div>
-            <%= form.label :status, "Статус" %>
-            <%= form.select :status, [["Новая задача"], ["Выполняется"], ["Завершена"]] %>
-        </div>
-    <% end %>
+  <div>
+    <%= form.label :description, "Описание" %><br>
+    <%= form.text_area :description %>
+  </div>
 
+  <div>
+    <%= form.label :due_date, "Срок выполнения" %><br>
+    <%= form.date_field :due_date, value: form.object.due_date %>
+  </div>
 
-    <div>
-        <%= form.submit task.persisted? ? "Обновить задачу" : "Создать задачу" %>
-    </div>
+  <h3>Повторение задачи</h3>
 
+  <div>
+    <%= form.label :repeat_unit, "Повторять каждые" %><br>
+    <%= form.select :repeat_unit, options_for_select([["День", "day"], ["Неделя", "week"], ["Месяц", "month"]], form.object.repeat_unit) %>
+  </div>
+
+  <div>
+    <%= form.label :repeat_interval, "Количество единиц" %><br>
+    <%= form.number_field :repeat_interval, value: form.object.repeat_interval, min: 1 %>
+  </div>
+
+  <div>
+    <%= form.label :repeat_forever, "Повторять бесконечно" %>
+    <%= form.check_box :repeat_forever %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
 <% end %>
